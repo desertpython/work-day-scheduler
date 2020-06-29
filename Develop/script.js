@@ -1,52 +1,61 @@
-//GIVEN I am using a daily planner to create a schedule
-// WHEN I open the planner
-// THEN the current day is displayed at the top of the calendar
-// WHEN I scroll down
-// THEN I am presented with time blocks for standard business hours
-// WHEN I view the time blocks for that day
-// THEN each time block is color-coded to indicate whether it is in the past, present, or future
-// WHEN I click into a time block
-// THEN I can enter an event
-// WHEN I click the save button for that time block
-// THEN the text for that event is saved in local storage
-// WHEN I refresh the page
-// THEN the saved events persist
-
-$(".saveBtn").on("click",function(){
+$(".saveBtn").on("click", function () {
     var userInput = $(this).siblings("textarea").val();
-    console.log(userInput);
-    var hour = $(this).attr("id");
+    //   var hourNum = $(this).parent().attr("id");
+    // console.log(userInput);
+    var hour = $(this).attr("hour");
     console.log(hour);
-    var hourNum = hour.split("-")[0];
-    console.log(hourNum);
-    localStorage.setItem(hourNum, userInput);
-})
-
-function getStorage() {
-    console.log(localStorage.getItem("9"));
-    $("#9-hour").siblings("textarea").val(localStorage.getItem("9"));
-    console.log(localStorage.getItem("10"));
-    $("#10-hour").siblings("textarea").val(localStorage.getItem("10"));
-    console.log(localStorage.getItem("11"));
-    $("#11-hour").siblings("textarea").val(localStorage.getItem("11"));
-    console.log(localStorage.getItem("12"));
-    $("#12-hour").siblings("textarea").val(localStorage.getItem("12"));
-    console.log(localStorage.getItem("13"));
-    $("#13-hour").siblings("textarea").val(localStorage.getItem("13"));
-    console.log(localStorage.getItem("14"));
-    $("#14-hour").siblings("textarea").val(localStorage.getItem("14"));
-    console.log(localStorage.getItem("15"));
-    $("#15-hour").siblings("textarea").val(localStorage.getItem("15"));
-    console.log(localStorage.getItem("16"));
-    $("#16-hour").siblings("textarea").val(localStorage.getItem("16"));
-    console.log(localStorage.getItem("7"));
-    $("#17-hour").siblings("textarea").val(localStorage.getItem("17"));
-    
-
+    //   var hourNum = hour.split("-")[0];
+    // console.log(hourNum);
+    localStorage.setItem(hour, userInput);
+  });
+  
+  function getStorage() {
+    console.log($("#9-hour")[0].children[1].value);
+    $("#9-hour")[0].children[1].value = localStorage.getItem("9");
+    console.log($("#10-hour")[0].children[1].value);
+    $("#10-hour")[0].children[1].value = localStorage.getItem("10");
+    console.log($("#11-hour")[0].children[1].value);
+    $("#11-hour")[0].children[1].value = localStorage.getItem("11");
+    console.log($("#12-hour")[0].children[1].value);
+    $("#12-hour")[0].children[1].value = localStorage.getItem("12");
+    console.log($("#13-hour")[0].children[1].value);
+    $("#13-hour")[0].children[1].value = localStorage.getItem("13");
+    console.log($("#14-hour")[0].children[1].value);
+    $("#14-hour")[0].children[1].value = localStorage.getItem("14");
+    console.log($("#15-hour")[0].children[1].value);
+    $("#15-hour")[0].children[1].value = localStorage.getItem("15");
+    console.log($("#16-hour")[0].children[1].value);
+    $("#16-hour")[0].children[1].value = localStorage.getItem("16");
+    console.log($("#17-hour")[0].children[1].value);
+    $("#17-hour")[0].children[1].value = localStorage.getItem("17");
+  
     //parse int time for greater/less than current time
     //moment().hour() for current time
+  }
+  getStorage();
+  
+  $("#currentDay").text(moment().format("dddd, MMMM Do, YYYY"));
+  
+  //color code box depending on time remaining
+  $(".time-block").each(function () {
 
-}
-getStorage();
+    var blockHour = parseInt($(this).attr("id").split("-")[0]);
+    var currentHour = moment().hours();
+  
+     console.log(blockHour, currentHour);
+    if (blockHour < currentHour) {
+      $(this).addClass("past");
+      console.log("in the if statement");
+    } else if (blockHour === currentHour) {
+      $(this).removeClass("past");
+      $(this).addClass("present");
+      console.log("in the elseif statement");
+    } else {
+      $(this).removeClass("past");
+      $(this).removeClass("present");
+      $(this).addClass("future");
+      console.log("in the else statement");
+    }
+  });
+  
 
-$("#currentDay").text(moment().format('dddd, MMMM Do, YYYY'));
